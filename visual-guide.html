@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Rooster &amp; The Web — A Visual Guide to Scale, Matter, and Dark Matter</title>
+  <meta name="description" content="A 4-scene interactive visual introduction: how self-locking protons invent local scale, why adjacent frames become energy, and how crystallizing matter leaves behind the 'Not-Proton' Dark Matter web." />
+  <meta property="og:title" content="The Rooster &amp; The Web — How the Universe Invents Scale &amp; Dark Matter" />
+  <meta property="og:description" content="Touch 4 interactive scenes: zoom a scale-free ocean 1,000,000,000×, lock a spherical proton frame, and see how 'Not-Proton' creates flat galaxy rotation curves." />
+  <meta property="og:image" content="https://dougmcnabb.github.io/dithering-reality/og-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://dougmcnabb.github.io/dithering-reality/og-preview.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #13192e 0%, #070a13 70%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    h1 {
+      font-size: clamp(1.35rem, 3vw, 1.9rem);
+      margin: 0 0 8px;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+    }
+    .intro {
+      margin: 0 0 18px;
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 680px) {
+      .tabs { grid-template-columns: repeat(2, 1fr); }
+    }
+    .tab-btn {
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.8);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .tab-btn:hover { background: rgba(30, 41, 59, 0.9); }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+    }
+    .tab-num { font-size: 0.75rem; font-weight: 600; opacity: 0.8; }
+    .tab-name { font-size: 0.88rem; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stage-card {
+      background: rgba(15, 21, 38, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    h2 { font-size: 1.15rem; margin: 0 0 6px; color: #f8fafc; }
+    .lead { font-size: 0.92rem; color: #94a3b8; margin: 0 0 14px; }
+    .canvas-box {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: #060912;
+      margin-bottom: 14px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 340px;
+      cursor: grab;
+    }
+    canvas:active { cursor: grabbing; }
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 5px 10px;
+      border-radius: 7px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      pointer-events: none;
+    }
+    .controls {
+      background: #0b1020;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 12px;
+      padding: 13px 15px;
+      margin-bottom: 14px;
+    }
+    .ctrl-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .slider-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 240px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    input[type="range"] {
+      flex: 1;
+      accent-color: #8b5cf6;
+      cursor: pointer;
+    }
+    .pill-btn {
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 7px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: #161f36;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+    .pill-btn:hover { background: #1e2946; }
+    .pill-btn.active {
+      background: #7c3aed;
+      color: #ffffff;
+      border-color: transparent;
+    }
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .aha {
+      margin: 0;
+      font-size: 0.86rem;
+      color: #e2e8f0;
+      flex: 1 1 300px;
+    }
+    .nav-btns { display: flex; gap: 8px; }
+    .nav-primary {
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;">
+      <div class="eyebrow" style="margin-bottom:0;">Interactive Visual Primer &middot; 4 Short Scenes</div>
+      <a href="./index.html" style="font-size:0.8rem;font-weight:600;color:#a78bfa;text-decoration:none;">Open Full 3D Dither Lab &rarr;</a>
+    </div>
+    <h1>The Rooster &amp; The Web: How the Universe Invents Scale, Energy, and "Dark Matter"</h1>
+    <p class="intro">
+      What if space doesn't have a built-in ruler—and "Dark Matter" isn't an invisible particle at all, just the leftover tension created when protons crystallize? Touch each scene below to see how one idea connects all four.
+    </p>
+
+    <div class="tabs">
+      <button id="tab-0" class="tab-btn"><div class="tab-num">Scene 1</div><div class="tab-name">No Fixed Scale</div></button>
+      <button id="tab-1" class="tab-btn"><div class="tab-num">Scene 2</div><div class="tab-name">The Rooster ("1.0")</div></button>
+      <button id="tab-2" class="tab-btn"><div class="tab-num">Scene 3</div><div class="tab-name">Adjacent Frames</div></button>
+      <button id="tab-3" class="tab-btn"><div class="tab-num">Scene 4</div><div class="tab-name">Proton &amp; "Not-Proton"</div></button>
+    </div>
+
+    <div class="stage-card">
+      <h2 id="scene-title"></h2>
+      <p id="scene-lead" class="lead"></p>
+
+      <div class="canvas-box">
+        <canvas id="stage-canvas"></canvas>
+        <div id="canvas-badge" class="badge"></div>
+      </div>
+
+      <div id="controls-container" class="controls"></div>
+
+      <div class="footer-row">
+        <p id="scene-aha" class="aha"></p>
+        <div class="nav-btns">
+          <button id="prev-btn" class="pill-btn">&larr; Previous</button>
+          <button id="next-btn" class="nav-primary">Next Scene &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const state = {
+        scene: 0,
+        time: 0,
+        logZoom: 0,
+        winding: 1.0,
+        yaw: 0.55,
+        pitch: 0.35,
+        dragging: false,
+        lastX: 0,
+        lastY: 0,
+        frameShift: 0.38,
+        observer: 'A',
+        webFilter: 'both',
+        webAlpha: 0.75,
+        webCache: null
+      };
+
+      function formatPow10(exp) {
+        if (exp < 0.5) return '1×';
+        if (exp < 3) return `${Math.round(Math.pow(10, exp))}×`;
+        return `10^${exp.toFixed(1)}×`;
+      }
+
+      const scenes = [
+        {
+          title: '1. Before Matter, the Universe Has No Ruler',
+          lead: 'We usually picture the universe starting as an empty box with kilometer and second marks already etched on the walls. In reality, pure waves have no built-in size or speed scale at all. Drag the Zoom slider below across nine orders of magnitude—watch what happens.',
+          aha: 'Takeaway: Without a stable "thing" to compare against, "big," "small," "fast," and "slow" do not exist yet. Zooming in a billion times looks identical.',
+          badge: () => `Magnification: ${formatPow10(state.logZoom * 0.30103)}  |  Built-in Ruler: None`
+        },
+        {
+          title: '2. The Rooster at Sunrise: How One Knot Invents "1.0"',
+          lead: 'To build a ruler or a clock, a wave has to loop back and catch its own tail in exact whole-number step (1.0). Like a rooster crowing at dawn convinced the universe revolves around him, every proton declares: "I am at rest. THIS is the center. My size is 1, and my pulse is 1 tick." Drag the canvas to rotate its spherical frame!',
+          aha: 'Takeaway: Because the proton is spherical, "at rest" isn’t a single rigid box—it’s a smooth spherical family of orientations. And only whole-number loops (1.0) survive; fractional loops cancel themselves out.',
+          badge: () => Math.abs(state.winding - 1.0) < 0.03
+            ? 'LOCKED (1.00): Persistent Proton Knot ("I am at rest!")'
+            : `Mismatched Phase (${state.winding.toFixed(2)}): Self-Canceling Back Into Fog`
+        },
+        {
+          title: '3. Two Roosters in Slightly Different Frames Invent Energy & Space',
+          lead: 'The primordial fog was continuous, not pixelated—so neighboring protons crystallize in marginally shifted frames. Wait: if BOTH Proton A and Proton B insist on being identical "1.0" protons at rest, how do they reconcile their difference? Switch viewpoints below to see!',
+          aha: 'Takeaway: Frame differences between identical protons don’t create "fat protons" and "skinny protons"—they show up to each other as relative motion, kinetic energy, and the stretched elastic web of Space!',
+          badge: () => state.observer === 'fog'
+            ? 'Un-normalized Fog View: Two slightly different frame scales'
+            : `Viewing from Proton ${state.observer}’s Frame ("I am 1.0 at rest; the other carries energy!")`
+        },
+        {
+          title: '4. Crystallizing "Proton" Automatically Leaves Behind "Not-Proton"',
+          lead: 'You cannot punch whole cookies ("1") out of a continuous sheet without leaving the webbing between them. When discrete protons crystallize out of a continuous wave cloud, every sub-threshold remainder (< 1) stays stretched between them as "Not-Proton"—what we experience as smooth Gravity and Dark Matter.',
+          aha: 'Takeaway: Underground detectors never hear a "Dark Matter particle" ping because the outer halo is < 1 everywhere—yet across a galaxy, that leftover web carries ~82% of the gravitational pull and flattens rotation curves.',
+          badge: () => state.webFilter === 'proton'
+            ? 'Eyes & Particle Detectors: See ONLY discrete 1.0 Protons (~18%)'
+            : state.webFilter === 'notproton'
+            ? 'Sub-Threshold "Not-Proton" Web (~82%): Smooth, < 1 everywhere'
+            : 'Full Conserved Reality: Discrete Protons + Continuous "Not-Proton" Web'
+        }
+      ];
+
+      function computeWeb() {
+        const N = 53;
+        const size = N * N * N;
+        const c = (N - 1) / 2;
+        const rMax = c - 1;
+        const r0 = 2.75;
+        const A = 0.95;
+        const alpha = state.webAlpha;
+
+        let seed = 19;
+        const rng = () => {
+          let t = (seed += 0x6D2B79F5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+
+        const buf = new Float64Array(size);
+        const knots = new Uint8Array(size);
+        const rem = new Float64Array(size);
+        const vis = new Uint8Array(size);
+
+        let idx = 0;
+        for (let z = 0; z < N; z++) {
+          const dz = z - c;
+          for (let y = 0; y < N; y++) {
+            const dy = y - c;
+            for (let x = 0; x < N; x++) {
+              const dx = x - c;
+              const r2 = dx * dx + dy * dy + dz * dz;
+              const ang = Math.atan2(dy, dx);
+              const rxy = Math.sqrt(dx * dx + dy * dy);
+              const arm = 1.0 + 0.16 * Math.cos(2 * ang - rxy * 0.35) * Math.exp(-Math.abs(dz) / 6);
+              buf[idx++] = (A * arm) / (1.0 + r2 / (r0 * r0));
+            }
+          }
+        }
+
+        const order = new Int32Array(size);
+        for (let i = 0; i < size; i++) order[i] = i;
+        for (let i = size - 1; i > 0; i--) {
+          const j = Math.floor(rng() * (i + 1));
+          const tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+        }
+
+        const strideZ = N * N;
+        const unvis = new Int32Array(6);
+        for (let s = 0; s < size; s++) {
+          const i = order[s];
+          vis[i] = 1;
+          const val = buf[i];
+          const k = val >= 0.5 ? 1 : 0;
+          knots[i] = k;
+          const err = val - k;
+          const z = (i / strideZ) | 0;
+          const remIdx = i - z * strideZ;
+          const y = (remIdx / N) | 0;
+          const x = remIdx - y * N;
+
+          let m = 0;
+          if (x > 0 && !vis[i - 1]) unvis[m++] = i - 1;
+          if (x + 1 < N && !vis[i + 1]) unvis[m++] = i + 1;
+          if (y > 0 && !vis[i - N]) unvis[m++] = i - N;
+          if (y + 1 < N && !vis[i + N]) unvis[m++] = i + N;
+          if (z > 0 && !vis[i - strideZ]) unvis[m++] = i - strideZ;
+          if (z + 1 < N && !vis[i + strideZ]) unvis[m++] = i + strideZ;
+
+          if (m > 0) {
+            const d = (alpha * err) / m;
+            rem[i] = (1.0 - alpha) * err;
+            for (let j = 0; j < m; j++) buf[unvis[j]] += d;
+          } else {
+            rem[i] = err;
+          }
+        }
+
+        const nBins = Math.floor(rMax);
+        const mBary = new Float64Array(nBins + 1);
+        const mTot = new Float64Array(nBins + 1);
+        const colK = new Float32Array(N * N);
+        const colR = new Float32Array(N * N);
+        const knotPts = [];
+
+        idx = 0;
+        let totB = 0, totD = 0;
+        for (let z = 0; z < N; z++) {
+          const dz = z - c;
+          for (let y = 0; y < N; y++) {
+            const dy = y - c;
+            for (let x = 0; x < N; x++) {
+              const dx = x - c;
+              const r = Math.sqrt(dx * dx + dy * dy + dz * dz);
+              const k = knots[idx];
+              const rm = rem[idx];
+              if (r <= rMax) {
+                totB += k;
+                totD += rm;
+                const b = Math.ceil(r);
+                if (b <= nBins) {
+                  mBary[b] += k;
+                  mTot[b] += k + rm;
+                }
+              }
+              colK[y * N + x] += k;
+              colR[y * N + x] += rm;
+              if (k === 1 && Math.abs(dz) <= 3) {
+                knotPts.push({ nx: x / (N - 1), ny: y / (N - 1), w: 1 - Math.abs(dz) / 4.5 });
+              }
+              idx++;
+            }
+          }
+        }
+
+        const radii = [], vBary = [], vTot = [];
+        let cb = 0, ct = 0;
+        for (let b = 1; b <= nBins; b++) {
+          cb += mBary[b];
+          ct += mTot[b];
+          if (b >= 2) {
+            radii.push(b / nBins);
+            vBary.push(Math.sqrt(Math.max(0, cb) / b));
+            vTot.push(Math.sqrt(Math.max(0, ct) / b));
+          }
+        }
+
+        state.webCache = {
+          N, colK, colR, knotPts, radii, vBary, vTot,
+          baryPct: (100 * totB) / (totB + totD),
+          darkPct: (100 * totD) / (totB + totD)
+        };
+      }
+
+      function buildControls() {
+        const box = document.getElementById('controls-container');
+        if (state.scene === 0) {
+          box.innerHTML = `
+            <div class="ctrl-row">
+              <label class="slider-label">
+                <span>Zoom Into the Fog (1&times; &rarr; 1,000,000,000&times;):</span>
+                <input id="zoom-slider" type="range" min="0" max="30" step="0.05" value="${state.logZoom}" />
+              </label>
+            </div>
+          `;
+          document.getElementById('zoom-slider').oninput = (e) => {
+            state.logZoom = parseFloat(e.target.value);
+            updateBadge();
+          };
+        } else if (state.scene === 1) {
+          box.innerHTML = `
+            <div class="ctrl-row">
+              <label class="slider-label">
+                <span>Wave Loop Closure: <strong id="wind-readout">${state.winding.toFixed(2)}</strong></span>
+                <input id="wind-slider" type="range" min="0.45" max="1.35" step="0.01" value="${state.winding}" />
+              </label>
+              <button id="snap-btn" class="pill-btn">Snap to Integer 1.00</button>
+            </div>
+          `;
+          const slider = document.getElementById('wind-slider');
+          slider.oninput = (e) => {
+            let v = parseFloat(e.target.value);
+            if (Math.abs(v - 1.0) < 0.025) v = 1.0;
+            state.winding = v;
+            document.getElementById('wind-readout').textContent = v.toFixed(2);
+            updateBadge();
+          };
+          document.getElementById('snap-btn').onclick = () => {
+            state.winding = 1.0;
+            slider.value = '1.00';
+            document.getElementById('wind-readout').textContent = '1.00';
+            updateBadge();
+          };
+        } else if (state.scene === 2) {
+          box.innerHTML = `
+            <div class="ctrl-row">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+                <span style="font-size:0.78rem;color:#94a3b8;font-weight:600;">Viewpoint:</span>
+                <button data-obs="A" class="pill-btn obs-btn">Proton A ("I'm at rest!")</button>
+                <button data-obs="B" class="pill-btn obs-btn">Proton B ("No, I'm at rest!")</button>
+                <button data-obs="fog" class="pill-btn obs-btn">Raw Un-normalized Fog</button>
+              </div>
+              <label class="slider-label" style="max-width:260px;">
+                <span>Frame Shift:</span>
+                <input id="shift-slider" type="range" min="0" max="0.65" step="0.01" value="${state.frameShift}" />
+              </label>
+            </div>
+          `;
+          const sync = () => {
+            box.querySelectorAll('.obs-btn').forEach(b => {
+              b.classList.toggle('active', b.getAttribute('data-obs') === state.observer);
+            });
+          };
+          box.querySelectorAll('.obs-btn').forEach(b => {
+            b.onclick = () => {
+              state.observer = b.getAttribute('data-obs');
+              sync();
+              updateBadge();
+            };
+          });
+          sync();
+          document.getElementById('shift-slider').oninput = (e) => {
+            state.frameShift = parseFloat(e.target.value);
+          };
+        } else {
+          if (!state.webCache) computeWeb();
+          box.innerHTML = `
+            <div class="ctrl-row">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+                <span style="font-size:0.78rem;color:#94a3b8;font-weight:600;">Layer:</span>
+                <button data-wf="both" class="pill-btn wf-btn">Both (100% Conserved)</button>
+                <button data-wf="proton" class="pill-btn wf-btn">"Proton" Only (~18%)</button>
+                <button data-wf="notproton" class="pill-btn wf-btn">"Not-Proton" Web (~82%)</button>
+              </div>
+              <label class="slider-label" style="max-width:250px;">
+                <span>Web Reach (&alpha; = <span id="wa-val">${state.webAlpha.toFixed(2)}</span>):</span>
+                <input id="wa-slider" type="range" min="0.1" max="0.95" step="0.05" value="${state.webAlpha}" />
+              </label>
+            </div>
+          `;
+          const sync = () => {
+            box.querySelectorAll('.wf-btn').forEach(b => {
+              b.classList.toggle('active', b.getAttribute('data-wf') === state.webFilter);
+            });
+          };
+          box.querySelectorAll('.wf-btn').forEach(b => {
+            b.onclick = () => {
+              state.webFilter = b.getAttribute('data-wf');
+              sync();
+              updateBadge();
+            };
+          });
+          sync();
+          document.getElementById('wa-slider').oninput = (e) => {
+            state.webAlpha = parseFloat(e.target.value);
+            document.getElementById('wa-val').textContent = state.webAlpha.toFixed(2);
+            computeWeb();
+          };
+        }
+      }
+
+      function updateBadge() {
+        document.getElementById('canvas-badge').textContent = scenes[state.scene].badge();
+      }
+
+      function selectScene(idx) {
+        state.scene = Math.max(0, Math.min(3, idx));
+        document.getElementById('scene-title').textContent = scenes[state.scene].title;
+        document.getElementById('scene-lead').textContent = scenes[state.scene].lead;
+        document.getElementById('scene-aha').textContent = scenes[state.scene].aha;
+        updateBadge();
+
+        for (let i = 0; i < 4; i++) {
+          document.getElementById(`tab-${i}`).classList.toggle('active', i === state.scene);
+        }
+        document.getElementById('prev-btn').disabled = state.scene === 0;
+        document.getElementById('prev-btn').style.opacity = state.scene === 0 ? '0.4' : '1';
+        document.getElementById('next-btn').textContent = state.scene === 3 ? 'Back to Scene 1 ↺' : 'Next Scene →';
+        buildControls();
+      }
+
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`tab-${i}`).onclick = () => selectScene(i);
+      }
+      document.getElementById('prev-btn').onclick = () => selectScene(state.scene - 1);
+      document.getElementById('next-btn').onclick = () => selectScene(state.scene === 3 ? 0 : state.scene + 1);
+
+      const canvas = document.getElementById('stage-canvas');
+      canvas.addEventListener('pointerdown', (e) => {
+        state.dragging = true;
+        state.lastX = e.clientX;
+        state.lastY = e.clientY;
+      });
+      window.addEventListener('pointermove', (e) => {
+        if (!state.dragging) return;
+        state.yaw += (e.clientX - state.lastX) * 0.01;
+        state.pitch = Math.max(-1.2, Math.min(1.2, state.pitch + (e.clientY - state.lastY) * 0.01));
+        state.lastX = e.clientX;
+        state.lastY = e.clientY;
+      });
+      window.addEventListener('pointerup', () => { state.dragging = false; });
+
+      function getHiDPI() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const w = Math.max(200, Math.round(rect.width));
+        const h = Math.max(200, Math.round(rect.height));
+        if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+          canvas.width = w * dpr;
+          canvas.height = h * dpr;
+        }
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, w, h };
+      }
+
+      function drawScene1(ctx, w, h, t) {
+        const gw = 120, gh = 68;
+        const off = document.createElement('canvas');
+        off.width = gw; off.height = gh;
+        const octx = off.getContext('2d');
+        const img = octx.createImageData(gw, gh);
+        const data = img.data;
+
+        const frac = state.logZoom - Math.floor(state.logZoom);
+        const scaleMul = Math.pow(2, frac);
+        const dirs = [[1, 0], [0.5, 0.866], [-0.5, 0.866], [0.866, -0.5], [0.26, 0.966]];
+
+        for (let py = 0; py < gh; py++) {
+          const ny = (py - gh / 2) / gh;
+          for (let px = 0; px < gw; px++) {
+            const nx = (px - gw / 2) / gh;
+            let sum = 0, wSum = 0;
+            for (let oct = -2; oct <= 4; oct++) {
+              const relOct = oct - frac;
+              const env = Math.exp(-(relOct * relOct) / 3.2);
+              const freq = Math.pow(2, oct) * 5.2 / scaleMul;
+              const dir = dirs[((oct % 5) + 5) % 5];
+              const phase = (nx * dir[0] + ny * dir[1]) * freq + t * (1.2 + 0.25 * oct);
+              const phase2 = (nx * dir[1] - ny * dir[0]) * freq * 1.13 - t * 0.9;
+              sum += env * (Math.sin(phase) + 0.7 * Math.cos(phase2));
+              wSum += env * 1.7;
+            }
+            const norm = 0.5 + 0.5 * (sum / wSum);
+            const p = (py * gw + px) * 4;
+            data[p]     = 10 + Math.pow(norm, 1.4) * 115;
+            data[p + 1] = 15 + Math.pow(norm, 1.2) * 155;
+            data[p + 2] = 32 + Math.pow(norm, 0.95) * 215;
+            data[p + 3] = 255;
+          }
+        }
+        octx.putImageData(img, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(off, 0, 0, w, h);
+
+        const rx = w / 2 - 135, ry = h - 54, rw = 270;
+        ctx.fillStyle = 'rgba(10,14,26,0.85)';
+        ctx.strokeStyle = 'rgba(148,163,184,0.35)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(rx, ry, rw, 38, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = '#94a3b8';
+        ctx.beginPath();
+        ctx.moveTo(rx + 18, ry + 15);
+        ctx.lineTo(rx + rw - 18, ry + 15);
+        for (let tick = 0; tick <= 8; tick++) {
+          const tx = rx + 18 + ((rw - 36) * tick) / 8;
+          ctx.moveTo(tx, ry + 10);
+          ctx.lineTo(tx, ry + 15);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('1 nm?  1 meter?  100 light-years?  (All look identical)', w / 2, ry + 31);
+        ctx.textAlign = 'left';
+      }
+
+      function drawScene2(ctx, w, h, t) {
+        ctx.fillStyle = '#070b14';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2, cy = h / 2 + 6;
+        const locked = Math.abs(state.winding - 1.0) < 0.03;
+        const R = Math.min(w, h) * 0.27;
+        if (!state.dragging) state.yaw += 0.005;
+
+        if (locked) {
+          for (let ring = 1; ring <= 4; ring++) {
+            const rad = R * (1.0 + ring * 0.42 + ((t * 0.45) % 0.42));
+            const alpha = Math.max(0, 0.35 - (rad / (R * 3.0)) * 0.35);
+            ctx.strokeStyle = `rgba(56,189,248,${alpha})`;
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+            ctx.stroke();
+            if (ring <= 3) {
+              ctx.fillStyle = 'rgba(148,163,184,0.65)';
+              ctx.font = '12px sans-serif';
+              ctx.fillText(`${ring}.0 r₀`, cx + R * (1 + ring * 0.42) + 4, cy - 4);
+            }
+          }
+        }
+
+        const cyaw = Math.cos(state.yaw), syaw = Math.sin(state.yaw);
+        const cp = Math.cos(state.pitch), sp = Math.sin(state.pitch);
+        function proj(x, y, z) {
+          const x1 = x * cyaw - z * syaw;
+          const z1 = x * syaw + z * cyaw;
+          const y2 = y * cp - z1 * sp;
+          const z2 = y * sp + z1 * cp;
+          const persp = 3.4 / (3.4 + z2);
+          return { x: cx + x1 * R * persp, y: cy + y2 * R * persp };
+        }
+
+        for (let cIdx = 0; cIdx < 6; cIdx++) {
+          const tilt = (cIdx / 6) * Math.PI;
+          ctx.strokeStyle = locked ? 'rgba(167,139,250,0.26)' : 'rgba(148,163,184,0.14)';
+          ctx.lineWidth = 1.1;
+          ctx.beginPath();
+          for (let s = 0; s <= 64; s++) {
+            const th = (s / 64) * Math.PI * 2;
+            const p = proj(Math.cos(th), Math.sin(th) * Math.cos(tilt), Math.sin(th) * Math.sin(tilt));
+            if (s === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.stroke();
+        }
+
+        const steps = 180;
+        ctx.lineWidth = locked ? 3.0 : 2.2;
+        ctx.strokeStyle = locked ? '#38bdf8' : '#f87171';
+        ctx.beginPath();
+        for (let s = 0; s <= steps; s++) {
+          const u = (s / steps) * Math.PI * 2;
+          const rLocal = 1.0 + 0.22 * Math.sin(u * 4 * state.winding - t * 4.0);
+          const p = proj(rLocal * Math.cos(u), rLocal * Math.sin(u) * 0.35, rLocal * Math.sin(u) * 0.93);
+          if (s === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+        }
+        ctx.stroke();
+
+        if (locked) {
+          ['#a78bfa', '#34d399'].forEach((col, bIdx) => {
+            const planeAng = (bIdx + 1) * 1.05;
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            for (let s = 0; s <= steps; s++) {
+              const u = (s / steps) * Math.PI * 2;
+              const rl = 1.0 + 0.18 * Math.sin(u * 4 - t * 4.0 + (bIdx + 1) * 2.09);
+              const x0 = rl * Math.cos(u), y0 = rl * Math.sin(u);
+              const p = proj(x0 * Math.cos(planeAng), y0, x0 * Math.sin(planeAng));
+              if (s === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+            }
+            ctx.stroke();
+          });
+        } else {
+          const tear = proj(1.0, 0, 0);
+          ctx.fillStyle = '#f87171';
+          ctx.beginPath();
+          ctx.arc(tear.x, tear.y, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.font = '600 12px sans-serif';
+          ctx.fillText('Head & tail collide out of step → cancels!', tear.x + 10, tear.y + 4);
+        }
+
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '600 12px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('Drag anywhere to rotate spherical frame ↻', w - 14, h - 12);
+        ctx.textAlign = 'left';
+      }
+
+      function drawScene3(ctx, w, h, t) {
+        ctx.fillStyle = '#070b14';
+        ctx.fillRect(0, 0, w, h);
+
+        const shift = state.frameShift;
+        const obs = state.observer;
+        const ax = w * 0.27, bx = w * 0.73, cy = h * 0.53;
+
+        const cols = 18, rows = 8;
+        ctx.strokeStyle = 'rgba(167,139,250,0.22)';
+        ctx.lineWidth = 1;
+        function gridPt(gx, gy) {
+          let u = gx / cols;
+          const v = gy / rows;
+          if (obs === 'A') u = Math.pow(u, 1.0 + shift * 0.85);
+          else if (obs === 'B') u = 1.0 - Math.pow(1.0 - u, 1.0 + shift * 0.85);
+          return { x: 28 + u * (w - 56), y: 46 + v * (h - 76) };
+        }
+        for (let c = 0; c <= cols; c++) {
+          ctx.beginPath();
+          for (let r = 0; r <= rows; r++) {
+            const p = gridPt(c, r);
+            if (r === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.stroke();
+        }
+        for (let r = 0; r <= rows; r++) {
+          ctx.beginPath();
+          for (let c = 0; c <= cols; c++) {
+            const p = gridPt(c, r);
+            if (c === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.stroke();
+        }
+
+        function drawProton(px, py, label, rawScale, relVelDir, relBeta, color) {
+          const baseR = 34 * rawScale;
+          for (let ring = 1; ring <= 3; ring++) {
+            const prog = ((t * 0.7 + ring * 0.33) % 1.0);
+            const rad = baseR + prog * 68;
+            const dopplerShift = prog * 68 * relBeta * relVelDir * 0.65;
+            ctx.strokeStyle = color.ring;
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.arc(px + dopplerShift, py, rad, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          const gamma = 1 / Math.sqrt(Math.max(0.15, 1 - relBeta * relBeta));
+          ctx.fillStyle = color.fill;
+          ctx.strokeStyle = color.stroke;
+          ctx.lineWidth = 2.6;
+          ctx.beginPath();
+          ctx.ellipse(px, py, baseR / gamma, baseR, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = '700 13px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(label, px, py + 4);
+          ctx.font = '600 12px sans-serif';
+          if (obs === 'fog') {
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(`Adjacent frame (${rawScale.toFixed(2)}×)`, px, py + baseR + 24);
+          } else if (relBeta < 0.005) {
+            ctx.fillStyle = '#34d399';
+            ctx.fillText('"I am 1.0, AT REST (v = 0)"', px, py + baseR + 24);
+            ctx.fillText('Rest Energy = 1.00 m₀c²', px, py + baseR + 41);
+          } else {
+            ctx.fillStyle = '#c4b5fd';
+            const arrow = relVelDir > 0 ? '→' : '←';
+            ctx.fillText(`Seen moving ${arrow} (v = ${(relBeta * 100).toFixed(0)}% c)`, px, py + baseR + 24);
+            ctx.fillText(`Higher Energy = ${gamma.toFixed(2)} m₀c²`, px, py + baseR + 41);
+          }
+          ctx.textAlign = 'left';
+        }
+
+        const colA = { fill: 'rgba(56,189,248,0.18)', stroke: '#38bdf8', ring: 'rgba(56,189,248,0.28)' };
+        const colB = { fill: 'rgba(167,139,250,0.18)', stroke: '#a78bfa', ring: 'rgba(167,139,250,0.28)' };
+
+        if (obs === 'fog') {
+          drawProton(ax, cy - 8, 'Proton A', 1.0 + shift * 0.25, 0, 0, colA);
+          drawProton(bx, cy - 8, 'Proton B', 1.0 - shift * 0.22, 0, 0, colB);
+        } else if (obs === 'A') {
+          drawProton(ax, cy - 8, 'Proton A', 1.0, 0, 0, colA);
+          drawProton(bx, cy - 8, 'Proton B', 1.0, -1, shift * 1.15, colB);
+        } else {
+          drawProton(ax, cy - 8, 'Proton A', 1.0, +1, shift * 1.15, colA);
+          drawProton(bx, cy - 8, 'Proton B', 1.0, 0, 0, colB);
+        }
+      }
+
+      function drawScene4(ctx, w, h) {
+        if (!state.webCache) computeWeb();
+        const wc = state.webCache;
+        ctx.fillStyle = '#060912';
+        ctx.fillRect(0, 0, w, h);
+
+        const splitX = Math.floor(w * 0.52);
+        const N = wc.N;
+        const off = document.createElement('canvas');
+        off.width = N; off.height = N;
+        const octx = off.getContext('2d');
+        const img = octx.createImageData(N, N);
+        const data = img.data;
+
+        const showP = state.webFilter === 'both' || state.webFilter === 'proton';
+        const showNP = state.webFilter === 'both' || state.webFilter === 'notproton';
+
+        for (let i = 0; i < N * N; i++) {
+          const rNorm = showNP ? Math.min(1, Math.max(0, wc.colR[i] / 4.2)) : 0;
+          const kNorm = showP ? Math.min(1, wc.colK[i] / 9.0) : 0;
+          const halo = Math.pow(rNorm, 0.72);
+          const p = i * 4;
+          data[p]     = Math.min(255, 6 + halo * 132 + kNorm * 235);
+          data[p + 1] = Math.min(255, 9 + halo * 64 + kNorm * 245);
+          data[p + 2] = Math.min(255, 18 + halo * 240 + kNorm * 255);
+          data[p + 3] = 255;
+        }
+        octx.putImageData(img, 0, 0);
+
+        const side = Math.min(splitX - 20, h - 54);
+        const ox = (splitX - side) / 2;
+        const oy = (h - side) / 2 + 14;
+        ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(off, ox, oy, side, side);
+
+        if (showP) {
+          for (let i = 0; i < wc.knotPts.length; i++) {
+            const pt = wc.knotPts[i];
+            ctx.fillStyle = `rgba(224,242,254,${0.85 * pt.w})`;
+            ctx.beginPath();
+            ctx.arc(ox + pt.nx * side, oy + pt.ny * side, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        ctx.strokeStyle = 'rgba(148,163,184,0.16)';
+        ctx.beginPath();
+        ctx.moveTo(splitX, 16);
+        ctx.lineTo(splitX, h - 16);
+        ctx.stroke();
+
+        const padL = splitX + 38, padR = 18, padT = 56, padB = 38;
+        const pw = w - padL - padR, ph = h - padT - padB;
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '700 13px sans-serif';
+        ctx.fillText('Star Orbital Speed vs. Distance', padL - 12, 34);
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        for (let g = 0; g <= 3; g++) {
+          const gy = padT + (ph * g) / 3;
+          ctx.beginPath();
+          ctx.moveTo(padL, gy);
+          ctx.lineTo(padL + pw, gy);
+          ctx.stroke();
+        }
+
+        let maxV = 1;
+        for (let i = 0; i < wc.radii.length; i++) if (wc.vTot[i] > maxV) maxV = wc.vTot[i];
+        maxV *= 1.15;
+
+        ctx.strokeStyle = '#a78bfa';
+        ctx.globalAlpha = state.webFilter === 'proton' ? 0.25 : 1.0;
+        ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        for (let i = 0; i < wc.radii.length; i++) {
+          const px = padL + wc.radii[i] * pw;
+          const py = padT + ph - (wc.vTot[i] / maxV) * ph;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = '#38bdf8';
+        ctx.globalAlpha = state.webFilter === 'notproton' ? 0.25 : 1.0;
+        ctx.lineWidth = 2.2;
+        ctx.setLineDash([5, 4]);
+        ctx.beginPath();
+        for (let i = 0; i < wc.radii.length; i++) {
+          const px = padL + wc.radii[i] * pw;
+          const py = padT + ph - (wc.vBary[i] / maxV) * ph;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 1.0;
+
+        ctx.font = '600 12px sans-serif';
+        ctx.fillStyle = '#a78bfa';
+        ctx.fillText(`— Proton + "Not-Proton" (${wc.darkPct.toFixed(0)}% web → Flat!)`, padL, padT + 14);
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(`-- "Proton" Only (${wc.baryPct.toFixed(0)}% knots → Drops off)`, padL, padT + 32);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('Distance from Galaxy Center →', padL + Math.max(0, pw / 2 - 78), h - 12);
+      }
+
+      let lastTs = performance.now();
+      function frame(ts) {
+        const dt = Math.min(0.05, (ts - lastTs) / 1000);
+        lastTs = ts;
+        state.time += dt;
+        const { ctx, w, h } = getHiDPI();
+        if (state.scene === 0) drawScene1(ctx, w, h, state.time);
+        else if (state.scene === 1) drawScene2(ctx, w, h, state.time);
+        else if (state.scene === 2) drawScene3(ctx, w, h, state.time);
+        else drawScene4(ctx, w, h);
+        requestAnimationFrame(frame);
+      }
+
+      selectScene(0);
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
